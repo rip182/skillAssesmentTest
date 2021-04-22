@@ -23,10 +23,17 @@ Route::post('/login',[AuthenticationController::class,'login']);
 
 //Protected routes 
 Route::middleware(['auth:sanctum'])->group(function () {
-    Route::post('/posts',[PostController::class,'store']);
-    Route::put('/posts/{id}',[PostController::class,'update']);
-    Route::delete('/posts/{id}', [PostController::class,'destroy']);
+
+    
     Route::post('/logout', [AuthenticationController::class, 'logout']);
+    Route::group(['middleware' => ['role:admin|writer']], function () {
+        Route::post('/posts',[PostController::class,'store']);
+        Route::put('/posts/{id}',[PostController::class,'update']);
+    });
+        
+    Route::group(['middleware' => ['role:admin']], function () {
+        Route::delete('/posts/{id}', [PostController::class,'destroy']);
+    });
 });
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {

@@ -29,10 +29,13 @@ class PostController extends Controller
         $request->validate([
         'title' => 'required',
         'body' => 'required',
-        'user_id' => 'required|integer'
         ]);
          
-        return  new PostResource(Post::create($request->all())); 
+        return  new PostResource(Post::create([
+            'title' => $request->title,
+            'body'  => $request->body,
+            'user_id' => auth()->user()->id
+        ])); 
     }
 
     /**
@@ -57,7 +60,6 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post, string $id)
     {
-        // dd($request->all());
         $post = $post::findOrFail($id);
         $post->update($request->all());
 

@@ -5,6 +5,8 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 
 class AuthenticationController extends Controller
 {
@@ -20,12 +22,13 @@ class AuthenticationController extends Controller
             'email' => $dataFields['email'],
             'password' => bcrypt($dataFields['password'])
         ]);
+        $user->assignRole('writer');
 
         $token = $user->createToken('myapptoken')->plainTextToken;   
 
         $response = [
             'token' => $token,
-            'user'  => $user
+            'user'  => $user,
         ];
 
         return response($response);
