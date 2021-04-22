@@ -18,6 +18,13 @@
                     ></chat-form>
                 </div>
             </div>
+           
+        </div>
+        <div class="col-md-4 card w-75">
+            <div class="card-body">
+                <h5 class="card-title">Please Read</h5>
+                <p class="card-text">Note: Open incognito window so you can create/login another account see actual chat conversation/push notification of new chat message </p>
+            </div>
         </div>
     </div>
 </div>

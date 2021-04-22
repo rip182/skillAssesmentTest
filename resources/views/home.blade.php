@@ -21,7 +21,8 @@
 
                 <div class="card-body">
 
-                <a href="{{ url('/chat')}}">Click Here Open Chat</a>
+                <a class="btn btn-outline-primary" href="{{ url('/chat')}}">Click Here Open Chat</a>
+        
                 </div>
             </div>
         </div>
