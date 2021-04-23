@@ -64,7 +64,7 @@ class AuthenticationController extends Controller
     return response($response,200);
    }
 
-   public function loginGihub(){
+   public function loginGithub(){
     return Socialite::driver('github')->redirect();
    }
 

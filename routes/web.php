@@ -22,7 +22,7 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 //Socilialite
-Route::get('/auth/github',[AuthenticationController::class,'loginGihub']);
+Route::get('/auth/github',[AuthenticationController::class,'loginGithub']);
 Route::get('/auth/github/callback',[AuthenticationController::class,'githubCallback']);
 
 //Chat Routes
