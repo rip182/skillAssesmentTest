@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ChatsController;
+use App\Http\Controllers\AuthenticationController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -20,6 +21,11 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+//Socilialite
+Route::get('/auth/github',[AuthenticationController::class,'loginGihub']);
+Route::get('/auth/github/callback',[AuthenticationController::class,'githubCallback']);
+
+//Chat Routes
 Route::get('/chat', [ChatsController::class,'index']);
 Route::get('/chat/messages', [ChatsController::class, 'fetchMessages']);
 Route::post('/chat/messages', [ChatsController::class, 'sendMessage']);

@@ -5,9 +5,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Spatie\Permission\Models\Role;
-use Spatie\Permission\Models\Permission;
-
+use Laravel\Socialite\Facades\Socialite;
 class AuthenticationController extends Controller
 {
     public function register(Request $request) {
@@ -64,5 +62,22 @@ class AuthenticationController extends Controller
     ];
 
     return response($response,200);
+   }
+
+   public function loginGihub(){
+    return Socialite::driver('github')->redirect();
+   }
+
+   public function githubCallback(){
+    $github = Socialite::driver('github')->user();
+    // dd($github->getNickName());
+    $user = User::create([
+        'email' => $github->getEmail(),
+        'name'  => $github->getNickName(),
+        'provider_id' => $github->getId()
+
+    ]);
+    Auth::login($user, true);
+    return redirect('home');
    }
 }
