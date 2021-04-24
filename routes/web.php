@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ChatsController;
 use App\Http\Controllers\AuthenticationController;
+use App\Http\Controllers\EmailVerifyController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -18,9 +19,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+
 //Socilialite
 Route::get('/auth/github',[AuthenticationController::class,'loginGithub']);
 Route::get('/auth/github/callback',[AuthenticationController::class,'githubCallback']);
@@ -29,3 +30,16 @@ Route::get('/auth/github/callback',[AuthenticationController::class,'githubCallb
 Route::get('/chat', [ChatsController::class,'index']);
 Route::get('/chat/messages', [ChatsController::class, 'fetchMessages']);
 Route::post('/chat/messages', [ChatsController::class, 'sendMessage']);
+
+//Email routes
+
+Route::get('/email/verify', [EmailVerifyController::class,'notice'])->middleware('auth')->name('verification.notice');
+Route::get('/email/verify/{id}/{hash}', [EmailVerifyController::class,'verifyEmail'])->middleware(['auth', 'signed'])->name('verification.verify');
+Route::get('/email/verify', [EmailVerifyController::class,'verifySend'])->middleware(['auth', 'throttle:6,1'])->name('verification.send');
+
+ // Only verified users may access this route...
+ 
+ Route::get('/verified', function() {
+    Auth::routes();
+    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+ })->middleware('verified');
