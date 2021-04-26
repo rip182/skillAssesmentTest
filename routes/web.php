@@ -36,14 +36,14 @@ Route::post('/chat/messages', [ChatsController::class, 'sendMessage']);
 
 Route::get('/email/verify', [EmailVerifyController::class,'notice'])->middleware('auth')->name('verification.notice');
 Route::get('/email/verify/{id}/{hash}', [EmailVerifyController::class,'verifyEmail'])->middleware(['auth', 'signed'])->name('verification.verify');
-Route::get('/email/verify', [EmailVerifyController::class,'verifySend'])->middleware(['auth', 'throttle:6,1'])->name('verification.send');
+Route::get('/email/verification-notification', [EmailVerifyController::class,'verifySend'])->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 
  // Only verified users may access this route...
- Route::get('/verified', function() {
-    Auth::routes();
-    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
- })->middleware('verified');
 
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home')->middleware('verified');;
+    
+
+ Auth::routes(['verify'=> true]);
 
 
 Route::resource('products', ProductController::class);
