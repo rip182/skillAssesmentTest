@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ChatsController;
 use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\EmailVerifyController;
+use App\Http\Controllers\ProductController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -38,8 +39,11 @@ Route::get('/email/verify/{id}/{hash}', [EmailVerifyController::class,'verifyEma
 Route::get('/email/verify', [EmailVerifyController::class,'verifySend'])->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 
  // Only verified users may access this route...
- 
  Route::get('/verified', function() {
     Auth::routes();
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
  })->middleware('verified');
+
+
+
+Route::resource('products', ProductController::class);
